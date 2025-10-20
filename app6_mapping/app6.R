@@ -59,7 +59,7 @@ ui <- fluidPage(
 appSixReload <- function(filePath){
   loadingScreenToggle('show','loading existing project')
   removeModal()
-  rdsLocation<-paste0(filePath,'//workingFile.rds')
+  rdsLocation<-file.path(filePath,'workingFile.rds')
   if(file.exists(rdsLocation)){
     workingFile<<-readRDS(rdsLocation)
     importedDatasetMaster<<-workingFile$importedDatasetMaster

@@ -19,7 +19,7 @@ begingMerging<-function(){
      toggleModal(session,'configModal',toggle='close')
      removeModal()
      # check if this folder exists
-     newMergeFolder<-paste0(masterWorkingDirectory,'\\finalOutputs\\',mergeName)
+     newMergeFolder<-file.path(masterWorkingDirectory,'finalOutputs',mergeName)
      if(dir.exists(newMergeFolder)){
        modalMessager('error','a folder with this name already exists in your finalOutputs folder. Please use a different name or delete that folder and try again')
      }else{
@@ -35,10 +35,10 @@ begingMerging<-function(){
 
 createDirectories<-function(mergeName){
 
-  finalOutputsFolder<<-paste0(masterWorkingDirectory,'\\finalOutputs')
-  thisMergeFolder<<-paste0(masterWorkingDirectory,'\\finalOutputs\\',mergeName)
-  popUseFolder<<-paste0(thisMergeFolder,'\\popUseMerged')
-  footprintsMergedFolder<<-paste0(thisMergeFolder,'\\footPrintsMerged')
+  finalOutputsFolder<<-file.path(masterWorkingDirectory,'finalOutputs')
+  thisMergeFolder<<-file.path(masterWorkingDirectory,'finalOutputs',mergeName)
+  popUseFolder<<-file.path(thisMergeFolder,'popUseMerged')
+  footprintsMergedFolder<<-file.path(thisMergeFolder,'footPrintsMerged')
 
   if(dir.exists(finalOutputsFolder)==FALSE){
     dir.create(finalOutputsFolder)
@@ -59,13 +59,13 @@ createDirectories<-function(mergeName){
 
 calculatePopUse<-function(){
 
-  udFolder<-paste0(masterWorkingDirectory,'\\Uds')
+  udFolder<-file.path(masterWorkingDirectory,'Uds')
 
   # gotta check the ud folders in case they are empty.. if one is empty then that seq was created using CalcLineBuff
   seasonsToMergeUd<-c()
   for(i in 1:length(seasonsToMerge)){
     thisSeason<-seasonsToMerge[i]
-    thisSeasonFolder<-paste0(udFolder,'\\',thisSeason)
+    thisSeasonFolder<-file.path(udFolder, thisSeason)
     thisFolderContent<-list.files(thisSeasonFolder)
     if(length(thisFolderContent)>0){
       seasonsToMergeUd<-c(seasonsToMergeUd,thisSeason)
@@ -120,7 +120,7 @@ calculatePopFootprint<-function(){
 
   loadingScreenToggle('show',paste0('calculating population footprints for seasons ',paste(seasonsToMerge)))
 
-  footPrintsFolder<-paste0(masterWorkingDirectory,'\\Footprints')
+  footPrintsFolder<-file.path(masterWorkingDirectory,'Footprints')
 
   tryCatch({
     CalcPopFootprint(Foot.fldr=footPrintsFolder,

@@ -235,11 +235,15 @@ appTwoReload <- function(filePath){
     sessionInfo<-list()
     sessionInfo$masterWorkingDirectory<-masterWorkingDirectory
     sessionInfo$time<-Sys.time()
-    saveTo<-paste0(dirname(getwd()),'//session.rds')
+#    saveTo<-paste0(dirname(getwd()),'//session.rds')
+      saveTo<-file.path(dirname(getwd()),'session.rds')
+    
     saveRDS(sessionInfo,saveTo)
   }else{
     modalMessager('Error',paste0('Data file from this session does not exist at ',filePath,'. Please try loading the data file manually using the "Reload Existing Project Folder" button.'))
-    sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    #sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    sessionCheckLocation<-file.path(dirname(getwd()),'session.rds')
+    
     file.remove(sessionCheckLocation)
   }
   loadingScreenToggle('hide','')

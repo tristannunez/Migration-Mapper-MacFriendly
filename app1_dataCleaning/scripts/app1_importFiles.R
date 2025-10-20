@@ -48,7 +48,11 @@ importShapefile<-function(fileToImport,lastOne,i){
     importedDataset <<- tryCatch({
       fileImportTracker[[fileToImport]]<<-"inProgress"
       progressIndicator(paste('Importing ',fileToImport,' Please wait',sep=""),'start')
-      st_read(paste0(dataFolder,'\\',fileToImport,'.shp'))
+     
+      
+    # st_read(paste0(dataFolder,'\\',fileToImport,'.shp'))
+      st_read(file.path(dataFolder,paste0(fileToImport,'.shp')))
+      
     },
     error = function(cond) {
       fileImportTracker[[fileToImport]]<<-'failed'

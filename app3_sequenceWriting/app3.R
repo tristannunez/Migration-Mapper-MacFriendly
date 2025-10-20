@@ -132,7 +132,7 @@ ui <- fluidPage(
 appThreeReload <- function(filePath){
   loadingScreenToggle('show','loading existing project')
   removeModal()
-  rdsLocation<-paste0(filePath,'//workingFile.rds')
+  rdsLocation<-file.path(filePath,'workingFile.rds')
   if(file.exists(rdsLocation)){
     workingFile<<-readRDS(rdsLocation)
     importedDatasetMaster<<-workingFile$importedDatasetMaster
@@ -145,11 +145,11 @@ appThreeReload <- function(filePath){
     sessionInfo<-list()
     sessionInfo$masterWorkingDirectory<-masterWorkingDirectory
     sessionInfo$time<-Sys.time()
-    saveTo<-paste0(dirname(getwd()),'//session.rds')
+    saveTo<-file.path(dirname(getwd()),'session.rds')
     saveRDS(sessionInfo,saveTo)
   }else{
     modalMessager('Error',paste0('Data file from this session does not exist at ',filePath,'. Please try loading the data file manually using the "Reload Existing Project Folder" button.'))
-    sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    sessionCheckLocation<-file.path(dirname(getwd()),'session.rds')
     file.remove(sessionCheckLocation)
   }
   loadingScreenToggle('hide','')
@@ -183,7 +183,7 @@ getMigtime<-function(){
 }
 
 loadConfig<-function(){
-  configOptions<<-readRDS(paste0(masterWorkingDirectory,'//configOptions.rds'))
+  configOptions<<-readRDS(file.path(masterWorkingDirectory,'configOptions.rds'))
   configOptions$masterWorkingDirectory<<-masterWorkingDirectory
   calcSeasonAverages()
 }

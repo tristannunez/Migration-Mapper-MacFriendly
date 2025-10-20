@@ -105,7 +105,9 @@ saveSessionInfo<<-function(){
   sessionInfo<-list()
   sessionInfo$masterWorkingDirectory<-masterWorkingDirectory
   sessionInfo$time<-Sys.time()
-  saveTo<-paste0(dirname(getwd()),'//session.rds')
+#  saveTo<-paste0(dirname(getwd()),'//session.rds')
+  saveTo<-file.path(dirname(getwd()),'session.rds')
+  
   print(saveTo)
   saveRDS(sessionInfo,saveTo)
 }
@@ -173,7 +175,8 @@ loadingScreenToggle<-function(hideShow,msg){
 
 
 checkForSession<<-function(fromApp){
-  sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+#  sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    sessionCheckLocation<-file.path(dirname(getwd()),'session.rds')
   if(file.exists(sessionCheckLocation)){
     sessionInfo<-readRDS(sessionCheckLocation)
     msgInfo<-paste0('A previous MAPP session was detected. This session was last active at ',sessionInfo$time,' using the project file stored at ',sessionInfo$masterWorkingDirectory,'. Would you like to reload the data from this session? If you click "no, clear session", you will need to choose a different project folder. This will not delete project files.')
@@ -374,7 +377,9 @@ Points2Lines <- function(data=data,
 
 saveConfig<-function(){
   if(exists('masterWorkingDirectory')){
-    saveRDS(configOptions,paste0(masterWorkingDirectory,'\\','configOptions.rds'))
+#    saveRDS(configOptions,paste0(masterWorkingDirectory,'\\','configOptions.rds'))
+    saveRDS(configOptions,file.path(masterWorkingDirectory,'configOptions.rds'))
+    
   }
 }
 
@@ -388,10 +393,11 @@ getFolderPathFromShinyDirChoose<-function(volumes,input){
         for(i in 1:length(rootPaths)){
           thisFolder<-rootPaths[[i]]
           if(nchar(thisFolder)>0){
-            rootPath<-paste0(rootPath,'/',thisFolder)
+            #rootPath<-paste0(rootPath,'/',thisFolder)
+            rootPath<-file.path(rootPath, thisFolder)
           }
         }
-        rootPath<-paste0(rootPath,'/')        
+        rootPath<-file.path(rootPath)        
         return(rootPath)
       }else{
         return(NULL)

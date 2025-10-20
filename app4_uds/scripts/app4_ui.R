@@ -117,7 +117,7 @@ app4_init<-function(input, output, session){
 }
 
 getSequences<-function(){
-  sequencesDir<-paste0(masterWorkingDirectory,'\\sequences')
+  sequencesDir<-file.path(masterWorkingDirectory,'sequences')
   sequenceFolders<-list.dirs(sequencesDir)
   availableSequences<<-list()
   if(length(sequenceFolders)==1){

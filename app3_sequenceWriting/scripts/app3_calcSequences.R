@@ -1,7 +1,7 @@
 calculateDefinedSequences<-function(){
   loadingScreenToggle('show','calculating sequences')
 
-  sequencesFolder<-paste0(masterWorkingDirectory,'\\sequences')
+  sequencesFolder<-file.path(masterWorkingDirectory,'sequences')
   if(dir.exists(sequencesFolder)==FALSE){
     dir.create(sequencesFolder)
   }
@@ -9,12 +9,12 @@ calculateDefinedSequences<-function(){
   for(i in 1:configOptions$totalSequences){
     thisSequenceName<-configOptions[[paste0('sequence',i)]]
     thisSequenceName<-str_replace_all(thisSequenceName, "[^[:alnum:]]", "")
-    thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
+    thisFolder<-file.path(sequencesFolder,thisSequenceName)
     if(dir.exists(thisFolder)==FALSE){
       dir.create(thisFolder)
     }
     if(length(dir(thisFolder))> 0){
-      unlink(paste0(thisFolder,'\\*'))
+      unlink(file.path(thisFolder,'*'))
     }
   }
 
@@ -67,9 +67,13 @@ calculateDefinedSequences<-function(){
         names(theseSequencePoints)<-c('id','date','mig','lon','lat','x','y')        
         # theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("lon", "lat"), crs = configOptions$masterCrs4326)
         theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("x", "y"), crs = configOptions$masterCrs)
-        thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
-        saveRDS(theseSequencePoints,paste0(thisFolder,'\\',thisSequenceName,'.rds'))
 
+        #macfix mac
+        #thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
+        #saveRDS(theseSequencePoints,paste0(thisFolder,'\\',thisSequenceName,'.rds'))
+        thisFolder<-file.path(sequencesFolder,thisSequenceName)
+        saveRDS(theseSequencePoints,file.path(thisFolder, paste0(thisSequenceName,'.rds')))
+        
 
 
       }else{
@@ -269,18 +273,30 @@ calculateInBetweenSequences<-function(){
     names(theseSequencePoints)<-c('id','date','mig','lon','lat','x','y')    
     # theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("lon", "lat"), crs = configOptions$masterCrs4326)
     theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("x", "y"), crs = configOptions$masterCrs)
-    sequencesFolder<-paste0(masterWorkingDirectory,'\\sequences')
+    
+    #macfix mac 
+    #sequencesFolder<-paste0(masterWorkingDirectory,'\\sequences')
+    sequencesFolder<-file.path(masterWorkingDirectory,'sequences')
+    
     if(dir.exists(sequencesFolder)==FALSE){
       dir.create(sequencesFolder)
     }
-    thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
+    #macfix mac
+    #thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
+    thisFolder<-file.path(sequencesFolder, thisSequenceName)
     if(dir.exists(thisFolder)==FALSE){
       dir.create(thisFolder)
     }
     if(length(dir(thisFolder))> 0){
-      unlink(paste0(thisFolder,'\\*'))
+      #macfix mac
+      #unlink(paste0(thisFolder,'\\*'))
+      unlink(file.path(thisFolder,'*'))
     }
-    saveRDS(theseSequencePoints,paste0(thisFolder,'\\',thisSequenceName,'.rds'))
+
+    # macfix mac
+    #saveRDS(theseSequencePoints,paste0(thisFolder,'\\',thisSequenceName,'.rds'))
+    
+    saveRDS(theseSequencePoints,file.path(thisFolder, paste0(thisSequenceName,'.rds')))
   }
 
   totalSequences<-length(unique(theseSequencePoints$mig))
@@ -754,19 +770,24 @@ calculateInBetweenSequencesForSpanYear<-function(thisSequenceName){
     names(theseSequencePoints)<-c('id','date','mig','lon','lat','x','y')
     # theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("lon", "lat"), crs = configOptions$masterCrs4326)
     theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("x", "y"), crs = configOptions$masterCrs)
-    sequencesFolder<-paste0(masterWorkingDirectory,'\\sequences')
+    #macfix mac 
+    sequencesFolder<-file.path(masterWorkingDirectory,'sequences')
+    # sequencesFolder<-paste0(masterWorkingDirectory,'\\sequences')
     if(dir.exists(sequencesFolder)==FALSE){
       dir.create(sequencesFolder)
     }
     thisSequenceName<-str_replace_all(thisSequenceName, "[^[:alnum:]]", "")
-    thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
+    # macfix
+    #thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
+    
+    thisFolder<-file.path(sequencesFolder, thisSequenceName)
     if(dir.exists(thisFolder)==FALSE){
       dir.create(thisFolder)
     }
     if(length(dir(thisFolder))> 0){
-      unlink(paste0(thisFolder,'\\*'))
+      unlink(file.path(thisFolder,'*'))
     }
-    saveRDS(theseSequencePoints,paste0(thisFolder,'\\',thisSequenceName,'.rds'))
+    saveRDS(theseSequencePoints,file.path(thisFolder,paste0(thisSequenceName,'.rds')))
   }    
   if(!exists('theseSequencePoints')){
       modalMessager('error', paste0('Your selection resulted in no outputs.. please check your data and make sure that unique animals have data that spans to the next year'))
@@ -989,19 +1010,19 @@ calculateCustomSequences<-function(){
     names(theseSequencePoints)<-c('id','date','mig','lon','lat','x','y')
     # theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("lon", "lat"), crs = configOptions$masterCrs4326)
     theseSequencePoints<-st_as_sf(theseSequencePoints,coords = c("x", "y"), crs = configOptions$masterCrs)
-    sequencesFolder<-paste0(masterWorkingDirectory,'\\sequences')
+    sequencesFolder<-file.path(masterWorkingDirectory,'sequences')
     if(dir.exists(sequencesFolder)==FALSE){
       dir.create(sequencesFolder)
     }
     thisSequenceName<-str_replace_all(thisSequenceName, "[^[:alnum:]]", "")
-    thisFolder<-paste0(sequencesFolder,'\\',thisSequenceName)
+    thisFolder<-file.path(sequencesFolder, thisSequenceName)
     if(dir.exists(thisFolder)==FALSE){
       dir.create(thisFolder)
     }
     if(length(dir(thisFolder))> 0){
-      unlink(paste0(thisFolder,'\\*'))
+      unlink(file.path(thisFolder,'*'))
     }
-    saveRDS(theseSequencePoints,paste0(thisFolder,'\\',thisSequenceName,'.rds'))
+    saveRDS(theseSequencePoints,file.path(thisFolder,paste0(thisSequenceName,'.rds')))
   }
   # 
   # finished
@@ -1023,7 +1044,7 @@ exportShapeFiles<-function(theseSequencePoints,thisSequenceName){
 
 
 
-  sequenceShapesDirectory<-paste0(masterWorkingDirectory,'\\sequenceShapefiles')
+  sequenceShapesDirectory<-file.path(masterWorkingDirectory,'sequenceShapefiles')
   if(dir.exists(sequenceShapesDirectory)==FALSE){
     dir.create(sequenceShapesDirectory)
   }

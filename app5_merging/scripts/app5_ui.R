@@ -188,8 +188,8 @@ app5_init<-function(input, output, session){
 
 buildSequencesButtons<-function(){
 
-  udFolder<<-paste0(masterWorkingDirectory,'\\UDs')
-  footPrintsFolder<<-paste0(masterWorkingDirectory,'\\Footprints')
+  udFolder<<-file.path(masterWorkingDirectory,'UDs')
+  footPrintsFolder<<-file.path(masterWorkingDirectory,'Footprints')
 
   udDirs<-list.dirs(udFolder,recursive = F)
   availableSequencesToMerge<-c()
@@ -279,8 +279,8 @@ getIdsAndYearsFromSeasons<-function(){
   udFootprintsToDropForMenu<-c()
   for(i in 1:length(seasonsToMerge)){
     thisSeason<-seasonsToMerge[i]
-    thisUdDirectory<-paste0(masterWorkingDirectory,'\\UDs\\',thisSeason)
-    thisFootprintsDirectory<-paste0(masterWorkingDirectory,'\\Footprints\\',thisSeason)
+    thisUdDirectory<-file.path(masterWorkingDirectory,'UDs',thisSeason)
+    thisFootprintsDirectory<-file.path(masterWorkingDirectory,'Footprints',thisSeason)
     theseFiles<-list.files(thisUdDirectory)
     udFootprintsToDropForMenu<-c(udFootprintsToDropForMenu,str_split_fixed(theseFiles,'.tif',2)[,1])
     theseFiles<-list.files(thisFootprintsDirectory)

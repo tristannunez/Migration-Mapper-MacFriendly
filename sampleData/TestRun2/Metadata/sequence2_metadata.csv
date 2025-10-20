@@ -1,0 +1,6 @@
+"seq.name","brownian.motion.variance","grid.size","grid.cell.size","date.created","execution_time","num.locs","Start.Date","End.Date","num.days","errors"
+"317_07_sequence2",591.24,20532,499.322988853324,2025-10-16 18:54:54.694582,"0.15 minutes",1319,2007-10-11 00:01:01,2008-01-30 22:01:01,112,"None"
+"318_07_sequence2",NA,NA,NA,2025-10-16 18:54:45.959589,"0 minutes",251,2007-06-16 00:01:01,2007-09-28 15:01:01,104,"More than 1/3 of your steps have time gaps greater than your max.lag! BBMM probably won't work."
+"320_07_sequence2",NA,NA,NA,2025-10-16 18:54:45.983761,"0 minutes",257,2007-06-22 00:01:01,2007-10-05 18:01:01,106,"More than 1/3 of your steps have time gaps greater than your max.lag! BBMM probably won't work."
+"321_07_sequence2",NA,NA,NA,2025-10-16 18:54:46.093744,"0 minutes",236,2007-06-11 03:01:01,2007-09-22 15:01:01,102,"More than 1/3 of your steps have time gaps greater than your max.lag! BBMM probably won't work."
+"344_09_sequence2",752.92,80,499.322988853324,2025-10-16 18:54:46.286139,"0 minutes",702,2009-07-11 00:01:01,2009-10-07 21:01:01,89,"None"
