@@ -377,7 +377,7 @@ updateSliders<-function(){
 
 replaceMigtimeDbTable<-function(){
   if(!exists('dbConnection')){
-    dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+    dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
   }
   tempMigtime<-migtime
   tempMigtime$mig1start <-as.character(tempMigtime$mig1start)
@@ -418,7 +418,7 @@ forwardBackward<-function(fOrB){
 
 
 saveMigtimeFile<-function(){
-  saveTo<-paste0(masterWorkingDirectory,'//migtime.rds')
+  saveTo<-file.path(masterWorkingDirectory,'migtime.rds')
   saveRDS(migtime,saveTo)
 }
 
@@ -497,14 +497,14 @@ exportMigtimeTable<-function(){
     }
   }
 
-  fileExportFolder<-paste0(masterWorkingDirectory,'\\EXPORTS')
+  fileExportFolder<-file.path(masterWorkingDirectory,'EXPORTS')
   if(dir.exists(fileExportFolder)==FALSE){
     dir.create(fileExportFolder)
   }
 
   fileExportName<<-'migtimeExport'
 
-  if(file.exists(paste0(fileExportFolder,'\\',fileExportName,'.csv'))){
+  if(file.exists(file.path(fileExportFolder, paste0(fileExportName,'.csv')))){
     time<-Sys.time()
     time<-gsub(" ", "", time, fixed = TRUE)
     time<-gsub("-", "", time, fixed = TRUE)
@@ -512,7 +512,7 @@ exportMigtimeTable<-function(){
     fileExportName<<-paste0(fileExportName,'_',time)
   }
 
-  write.csv(migtimeToExport,paste0(fileExportFolder,'\\',fileExportName,'.csv'),row.names=F)
+  write.csv(migtimeToExport,file.path(fileExportFolder, paste0(fileExportName,'.csv')),row.names=F)
   modalMessager('Success',paste0('File was exported to EXPORTS subfolder in project directory ','with a filename of ',fileExportName,'.csv'))
 
 }

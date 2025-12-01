@@ -138,7 +138,7 @@ appThreeReload <- function(filePath){
     importedDatasetMaster<<-workingFile$importedDatasetMaster
     workingFile$masterWorkingDirectory<<-filePath
     masterWorkingDirectory<<-filePath
-    dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+    dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
     updateMasterTableFromDatabase()
 
     getMigtime()
@@ -156,7 +156,7 @@ appThreeReload <- function(filePath){
 }
 
 getMigtime<-function(){
-  dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+  dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
   tables<-dbListTables(dbConnection)
   if('migtime'%in%tables){
     migtime<<-dbGetQuery(dbConnection, "SELECT * FROM migtime")

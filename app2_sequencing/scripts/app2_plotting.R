@@ -256,6 +256,9 @@ plotInit<-function(){
         print(sequencesPlot)
     })
 
+### test
+#browser()
+## end test    
 
   output$plot1 <- renderPlot({
     nsdPlot<-ggplot(dataForPlots()$plotData, aes(as.Date(newMasterDate,format=configOptions$stringFormat), get(nsdType))) +

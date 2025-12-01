@@ -215,12 +215,12 @@ observeEvent(input$fileUploadExecute, {
 
 
 exportShapefile=function(){
-    fileExportFolder<-paste0(masterWorkingDirectory,'\\EXPORTS')
+    fileExportFolder<-file.path(masterWorkingDirectory,'EXPORTS')
     if(dir.exists(fileExportFolder)==FALSE){
       dir.create(fileExportFolder)
     }
 
-    if(file.exists(paste0(fileExportFolder,'\\',fileExportName,'.shp'))){
+    if(file.exists(file.path(fileExportFolder, paste0(fileExportName,'.shp')))){
       time<-Sys.time()
       time<-gsub(" ", "", time, fixed = TRUE)
       time<-gsub("-", "", time, fixed = TRUE)

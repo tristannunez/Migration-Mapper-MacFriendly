@@ -119,8 +119,8 @@ saveWorkingFile<<-function(){
   loadingScreenToggle('show','saving project files')
   workingFile$masterWorkingDirectory<<-masterWorkingDirectory
   workingFile$importedDatasetMaster<<-importedDatasetMaster
-  saveRDS(workingFile,paste0(masterWorkingDirectory,'//workingFile.rds'),)
-  dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+  saveRDS(workingFile,file.path(masterWorkingDirectory,'workingFile.rds'),)
+  dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
   # dbWriteTable(dbConnection, "importedDatasetMaster", importedDatasetMaster@data, overwrite=T)
   dbWriteTable(dbConnection, "importedDatasetMaster", importedDatasetMaster, overwrite=T)
   # importedDatasetMaster@data <- dbGetQuery(dbConnection, "SELECT * FROM importedDatasetMaster")
@@ -134,7 +134,7 @@ saveMigtime<-function(){
 
   print(masterWorkingDirectory)
 
-  dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+  dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
 
   migtimeTemp<-migtime
   migtimeTemp$mig1start <- as.character(migtimeTemp$mig1start)
