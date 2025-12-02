@@ -36,7 +36,7 @@ dataInit<-function(){
 
 
 
-  sequencesDirectory<-paste0(masterWorkingDirectory,'\\sequenceShapefiles')
+  sequencesDirectory<-file.path(masterWorkingDirectory,'sequenceShapefiles')
 
   sequencesFiles<-dir(sequencesDirectory,pattern = '*.shp')
   if(length(sequencesFiles)>0){
@@ -45,20 +45,20 @@ dataInit<-function(){
 
       thisFile<-sequencesFiles[i]
       thisFileName<-strsplit(thisFile,'.shp')[[1]][1]
-      thisFile <- st_read(paste0(sequencesDirectory,'\\',thisFile))
+      thisFile <- st_read(file.path(sequencesDirectory, thisFile))
       thisFile<- st_transform(thisFile, "EPSG:4326") # set CRS
       filesHolder$sequences[[thisFileName]]<<-thisFile
     }
   }
 
-  finalMergedDirectories<-list.dirs(paste0(masterWorkingDirectory,'\\finalOutputs'),recursive=F)
+  finalMergedDirectories<-list.dirs(file.path(masterWorkingDirectory,'finalOutputs'),recursive=F)
   if(length(finalMergedDirectories)>0){
     for(i in 1:length(finalMergedDirectories)){
       thisMergedDirectory<-finalMergedDirectories[i]
       thisDirectorySplit<-strsplit(thisMergedDirectory,'/')
       thisMergedName<-thisDirectorySplit[[1]][length(thisDirectorySplit[[1]])]
-      footprintsDirectory<-paste0(thisMergedDirectory,'\\footPrintsMerged')
-      popUseDirectory<-paste0(thisMergedDirectory,'\\popUseMerged')
+      footprintsDirectory<-file.path(thisMergedDirectory,'footPrintsMerged')
+      popUseDirectory<-file.path(thisMergedDirectory,'popUseMerged')
 
       footprintsFiles<-dir(footprintsDirectory,pattern = '*.shp')
 
@@ -70,7 +70,7 @@ dataInit<-function(){
 
           thisFile<-footprintsFiles[j]
           thisFileName<-strsplit(thisFile,'.shp')[[1]][1]
-          thisFile <- st_read(paste0(footprintsDirectory,'\\',thisFile))
+          thisFile <- st_read(file.path(footprintsDirectory,thisFile))
           thisFile<- st_transform(thisFile, "EPSG:4326") # set CRS
           filesHolder$footprints[[paste0(thisMergedName,'_',thisFileName)]]<<-thisFile
         }
@@ -81,7 +81,7 @@ dataInit<-function(){
           
           thisFile<-popUseFiles[j]
           thisFileName<-strsplit(thisFile,'.shp')[[1]][1]
-          thisFile <- st_read(paste0(popUseDirectory,'\\',thisFile))
+          thisFile <- st_read(file.path(popUseDirectory, thisFile))
           thisFile<- st_transform(thisFile, "EPSG:4326") # set CRS
           filesHolder$popUse[[paste0(thisMergedName,'_',thisFileName)]]<<-thisFile
         }

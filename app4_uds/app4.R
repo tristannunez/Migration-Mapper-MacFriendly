@@ -7,14 +7,21 @@ source("scripts/app4_runUd.R",local=TRUE)
 source("../globalScripts/globalUiFunctions.R",local=TRUE)
 source("../globalScripts/sqlLiteQueries.R",local=TRUE)
 
-
-source("wmiScripts\\CalcPopGrid.R")
-source("wmiScripts\\CalcSeqDistances.R")
-source("wmiScripts\\CalcBBMM.R")
-source("wmiScripts\\CalcDBBMM.R")
-source("wmiScripts\\CalcKernel.R")
-source("wmiScripts\\CalcLineBuff.R")
-source("wmiScripts\\CalcCTMM.R")
+## Change to work with Mac
+# source("wmiScripts\\CalcPopGrid.R")
+# source("wmiScripts\\CalcSeqDistances.R")
+# source("wmiScripts\\CalcBBMM.R")
+# source("wmiScripts\\CalcDBBMM.R")
+# source("wmiScripts\\CalcKernel.R")
+# source("wmiScripts\\CalcLineBuff.R")
+# source("wmiScripts\\CalcCTMM.R")
+source("wmiScripts/CalcPopGrid.R")
+source("wmiScripts/CalcSeqDistances.R")
+source("wmiScripts/CalcBBMM.R")
+source("wmiScripts/CalcDBBMM.R")
+source("wmiScripts/CalcKernel.R")
+source("wmiScripts/CalcLineBuff.R")
+source("wmiScripts/CalcCTMM.R")
 
 # dependencies<-c("shiny","shinyjs","parallel","RSQLite","adehabitatHR", "R.utils","BBMM","R.utils","dplyr", "ctmm", "move","sf","raster","sp","fields",'shinyBS','shinyFiles')
 dependencies<-c("shiny","shinyjs","parallel","RSQLite","adehabitatHR", "R.utils","BBMM","R.utils","dplyr", "ctmm", "move","sf","fields",'shinyBS','shinyFiles')
@@ -236,15 +243,15 @@ ui <- fluidPage(
 appFourReload <- function(filePath){
   loadingScreenToggle('show','loading existing project')
   removeModal()
-  rdsLocation<-paste0(filePath,'//workingFile.rds')
+  rdsLocation<-file.path(filePath,'workingFile.rds')
   if(file.exists(rdsLocation)){
     workingFile<<-readRDS(rdsLocation)    
     importedDatasetMaster<<-workingFile$importedDatasetMaster
     # masterWorkingDirectory<<-workingFile$masterWorkingDirectory
     workingFile$masterWorkingDirectory<<-filePath
-    configOptions<<-readRDS(paste0(filePath,'//configOptions.rds'))
+    configOptions<<-readRDS(file.path(filePath,'configOptions.rds'))
     masterWorkingDirectory<<-filePath
-    dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+    dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
     updateMasterTableFromDatabase()
 
     # -----------------------------
@@ -261,12 +268,12 @@ appFourReload <- function(filePath){
     sessionInfo<-list()
     sessionInfo$masterWorkingDirectory<-masterWorkingDirectory
     sessionInfo$time<-Sys.time()
-    saveTo<-paste0(dirname(getwd()),'//session.rds')
+    saveTo<-file.path(dirname(getwd()),'session.rds')
     saveRDS(sessionInfo,saveTo)
     getSequences()
   }else{
     modalMessager('Error',paste0('Data file from this session does not exist at ',filePath,'. Please try loading the data file manually using the "Reload Existing Project Folder" button.'))
-    sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    sessionCheckLocation<-file.path(dirname(getwd()),'session.rds')
     file.remove(sessionCheckLocation)
   }
   loadingScreenToggle('hide','')
@@ -274,7 +281,7 @@ appFourReload <- function(filePath){
 }
 
 loadConfig<-function(){
-  configOptions<<-readRDS(paste0(masterWorkingDirectory,'//configOptions.rds'))
+  configOptions<<-readRDS(file.path(masterWorkingDirectory,'configOptions.rds'))
   configOptions$masterWorkingDirectory<<-masterWorkingDirectory
   if('udConfigOptions'%in%names(configOptions)){
     reloadUdConfigOptions()

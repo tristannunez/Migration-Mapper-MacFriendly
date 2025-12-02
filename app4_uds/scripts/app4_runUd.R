@@ -4,10 +4,10 @@ startUdProcessing<-function(seqName){
 }
 
 checkForFolders<-function(seqName){
-  udFolder<<-paste0(masterWorkingDirectory,"/UDs")
-  footprintFolder<<-paste0(masterWorkingDirectory,"./Footprints")
-  metadataFolder<<-paste0(masterWorkingDirectory,"./Metadata")
-  populationGridFolder<<-paste0(masterWorkingDirectory,"./PopulationGrid")
+  udFolder<<-file.path(masterWorkingDirectory,"UDs")
+  footprintFolder<<-file.path(masterWorkingDirectory,"Footprints")
+  metadataFolder<<-file.path(masterWorkingDirectory,"Metadata")
+  populationGridFolder<<-file.path(masterWorkingDirectory,"PopulationGrid")
 
   #check the new directories
   if(dir.exists(udFolder)==FALSE){
@@ -70,8 +70,8 @@ prepUdProcessing<-function(seqName){
 }
 
 checkUdFolder<-function(seqName){
-  thisUdFolder<-paste0(udFolder,'\\',seqName)
-  thisFootprintFolder<-paste0(footprintFolder,'\\',seqName)
+  thisUdFolder<-file.path(udFolder, seqName)
+  thisFootprintFolder<-file.path(footprintFolder,seqName)
   #check the new directories
   if(dir.exists(thisUdFolder)==FALSE){
     dir.create(thisUdFolder)
@@ -112,8 +112,8 @@ checkUdFolder<-function(seqName){
 
 runUdProcessing<-function(seqName){
 
-  thisUdFolder<-paste0(udFolder,'\\',seqName)
-  thisFootprintFolder<-paste0(footprintFolder,'\\',seqName)
+  thisUdFolder<-file.path(udFolder,seqName)
+  thisFootprintFolder<-file.path(footprintFolder,seqName)
 
   loadingScreenToggle('show',paste0('starting UD calcuations using method ',configOptions$udConfigOptions$udMethod," for sequence ",seqName))
   d<-readRDS(availableSequences[[seqName]][1])

@@ -394,7 +394,7 @@ server <- function(input, output, session) {
 
 appOneReload <- function(filePath){
   print('app one reload')
-  rdsLocation<-paste0(filePath,'//workingFile.rds')
+  rdsLocation<-file.path(filePath,'workingFile.rds')
   print(rdsLocation)
   if(file.exists(rdsLocation)){
     loadingScreenToggle('show','loading existing project file')
@@ -409,7 +409,7 @@ appOneReload <- function(filePath){
         workingFile$masterWorkingDirectory<<-filePath
         masterWorkingDirectory<<-filePath
         loadConfig()
-        dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+        dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
         updateMasterTableFromDatabase()
         removeModal()
         # print(!'newMasterDate'%in%names(importedDatasetMaster@data))
@@ -424,13 +424,13 @@ appOneReload <- function(filePath){
       }    
   }else{
     modalMessager('Error',paste0('Data file from this session does not exist at ',filePath,'. Please try loading the data file manually using the "Reload Existing Project Folder" button.'))
-    sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    sessionCheckLocation<-file.path(dirname(getwd()),'session.rds')
     file.remove(sessionCheckLocation)
   }
 }
 
 loadConfig<-function(){
-  configOptions<<-readRDS(paste0(masterWorkingDirectory,'//configOptions.rds'))
+  configOptions<<-readRDS(file.path(masterWorkingDirectory,'configOptions.rds'))
   configOptions$masterWorkingDirectory<<-masterWorkingDirectory
   updateNumericInput(session, 'maxSpeedSelector', value= configOptions$maxSpeedParameter )
   updateNumericInput(session, 'mortDistance', value= configOptions$mortDistance)
@@ -451,16 +451,16 @@ rebuildOlderProject<-function(newProjectFolder){
   }
 
   print('migtime exists')
-  print(file.exists(paste0(masterWorkingDirectory,'//migtime.rds')))
+  print(file.exists(file.path(masterWorkingDirectory,'migtime.rds')))
 
-  if(file.exists(paste0(masterWorkingDirectory,'//migtime.rds'))){    
-    migtime<<-readRDS(paste0(masterWorkingDirectory,'//migtime.rds'))    
-    saveRDS(migtime,paste0(newProjectFolder,'//migtime.rds'))
+  if(file.exists(file.path(masterWorkingDirectory,'migtime.rds'))){    
+    migtime<<-readRDS(file.path(masterWorkingDirectory,'migtime.rds'))    
+    saveRDS(migtime,file.path(newProjectFolder,'migtime.rds'))
   }
 
 
   toggleModal(session,'rebuild30modal',toggle='close')
-  configOptions<<-readRDS(paste0(masterWorkingDirectory,'//configOptions.rds'))
+  configOptions<<-readRDS(file.path(masterWorkingDirectory,'configOptions.rds'))
   importedDatasetMaster<<-data.frame(importedDatasetMaster)  
   crs4326<-crs(elevation)
   configOptions$masterCrs4326<<-crs4326

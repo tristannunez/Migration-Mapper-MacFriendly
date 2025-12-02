@@ -1,7 +1,7 @@
 updateTable<-function(tableName,column,where,value){
 
   if(!exists('dbConnection')){
-    dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+    dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
   }
 
   thisUpdateQuery<<-paste('UPDATE',tableName,'SET',column,'=',value,where,sep=' ')

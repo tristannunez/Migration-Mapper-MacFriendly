@@ -221,12 +221,12 @@ server <- function(input, output, session) {
 
 appTwoReload <- function(filePath){
   loadingScreenToggle('show','')
-  rdsLocation<-paste0(filePath,'//workingFile.rds')
+  rdsLocation<-file.path(filePath,'workingFile.rds')
   if(file.exists(rdsLocation)){
     workingFile<<-readRDS(rdsLocation)
     importedDatasetMaster<<-workingFile$importedDatasetMaster
     masterWorkingDirectory<<-filePath
-    dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+    dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
     updateMasterTableFromDatabase()
     workingFile$importedDatasetMaster<<-importedDatasetMaster
     workingFile$masterWorkingDirectory<<-filePath
@@ -235,18 +235,22 @@ appTwoReload <- function(filePath){
     sessionInfo<-list()
     sessionInfo$masterWorkingDirectory<-masterWorkingDirectory
     sessionInfo$time<-Sys.time()
-    saveTo<-paste0(dirname(getwd()),'//session.rds')
+#    saveTo<-paste0(dirname(getwd()),'//session.rds')
+      saveTo<-file.path(dirname(getwd()),'session.rds')
+    
     saveRDS(sessionInfo,saveTo)
   }else{
     modalMessager('Error',paste0('Data file from this session does not exist at ',filePath,'. Please try loading the data file manually using the "Reload Existing Project Folder" button.'))
-    sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    #sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    sessionCheckLocation<-file.path(dirname(getwd()),'session.rds')
+    
     file.remove(sessionCheckLocation)
   }
   loadingScreenToggle('hide','')
 }
 
 getMigtime<-function(){
-  dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+  dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
   tables<-dbListTables(dbConnection)
   if('migtime'%in%tables){
     migtime<<-dbGetQuery(dbConnection, "SELECT * FROM migtime")
@@ -330,7 +334,7 @@ chooseStartDate<-function(){
 
 
 loadConfig<-function(){
-  configOptions<<-readRDS(paste0(masterWorkingDirectory,'//configOptions.rds'))
+  configOptions<<-readRDS(file.path(masterWorkingDirectory,'configOptions.rds'))
   configOptions$masterWorkingDirectory<<-masterWorkingDirectory
   tempDate<-format(as.Date(configOptions$bioYearStartDate),'%m-%d')
   plotLabel<<-paste0('Displacement^2 km since ',tempDate)
@@ -373,5 +377,5 @@ loadConfig<-function(){
 }
 
 
-shiny::devmode(FALSE)
+shiny::devmode(TRUE)
 shinyApp(ui, server)

@@ -132,31 +132,31 @@ ui <- fluidPage(
 appThreeReload <- function(filePath){
   loadingScreenToggle('show','loading existing project')
   removeModal()
-  rdsLocation<-paste0(filePath,'//workingFile.rds')
+  rdsLocation<-file.path(filePath,'workingFile.rds')
   if(file.exists(rdsLocation)){
     workingFile<<-readRDS(rdsLocation)
     importedDatasetMaster<<-workingFile$importedDatasetMaster
     workingFile$masterWorkingDirectory<<-filePath
     masterWorkingDirectory<<-filePath
-    dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+    dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
     updateMasterTableFromDatabase()
 
     getMigtime()
     sessionInfo<-list()
     sessionInfo$masterWorkingDirectory<-masterWorkingDirectory
     sessionInfo$time<-Sys.time()
-    saveTo<-paste0(dirname(getwd()),'//session.rds')
+    saveTo<-file.path(dirname(getwd()),'session.rds')
     saveRDS(sessionInfo,saveTo)
   }else{
     modalMessager('Error',paste0('Data file from this session does not exist at ',filePath,'. Please try loading the data file manually using the "Reload Existing Project Folder" button.'))
-    sessionCheckLocation<-paste0(dirname(getwd()),'//session.rds')
+    sessionCheckLocation<-file.path(dirname(getwd()),'session.rds')
     file.remove(sessionCheckLocation)
   }
   loadingScreenToggle('hide','')
 }
 
 getMigtime<-function(){
-  dbConnection <<- dbConnect(RSQLite::SQLite(), paste0(masterWorkingDirectory,'//workingDb.db'))
+  dbConnection <<- dbConnect(RSQLite::SQLite(), file.path(masterWorkingDirectory,'workingDb.db'))
   tables<-dbListTables(dbConnection)
   if('migtime'%in%tables){
     migtime<<-dbGetQuery(dbConnection, "SELECT * FROM migtime")
@@ -183,7 +183,7 @@ getMigtime<-function(){
 }
 
 loadConfig<-function(){
-  configOptions<<-readRDS(paste0(masterWorkingDirectory,'//configOptions.rds'))
+  configOptions<<-readRDS(file.path(masterWorkingDirectory,'configOptions.rds'))
   configOptions$masterWorkingDirectory<<-masterWorkingDirectory
   calcSeasonAverages()
 }

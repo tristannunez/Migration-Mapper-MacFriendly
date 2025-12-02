@@ -9,8 +9,8 @@ source("../globalScripts/globalUiFunctions.R",local=TRUE)
 source("../globalScripts/sqlLiteQueries.R",local=TRUE)
 
 
-source("wmiScripts\\CalcPopUse.R")
-source("wmiScripts\\CalcPopFootprint.R")
+source("wmiScripts/CalcPopUse.R")
+source("wmiScripts/CalcPopFootprint.R")
 
 
 dependencies<-c("shiny","shinyjs","RSQLite",'sf', 'raster', 'stringr', 'move', 'smoothr', 'rgeos','shinyBS','shinyFiles')
