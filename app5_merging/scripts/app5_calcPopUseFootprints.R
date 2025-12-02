@@ -35,10 +35,15 @@ begingMerging<-function(){
 
 createDirectories<-function(mergeName){
 
+  if(!is.null(udFootprintsToDrop)){
+    write.csv(udFootprintsToDrop,)
+  }
+
   finalOutputsFolder<<-file.path(masterWorkingDirectory,'finalOutputs')
   thisMergeFolder<<-file.path(masterWorkingDirectory,'finalOutputs',mergeName)
   popUseFolder<<-file.path(thisMergeFolder,'popUseMerged')
   footprintsMergedFolder<<-file.path(thisMergeFolder,'footPrintsMerged')
+  
 
   if(dir.exists(finalOutputsFolder)==FALSE){
     dir.create(finalOutputsFolder)
@@ -51,6 +56,10 @@ createDirectories<-function(mergeName){
   }
   if(dir.exists(footprintsMergedFolder)==FALSE){
     dir.create(footprintsMergedFolder)
+  }
+
+  if(!is.null(udFootprintsToDrop)){
+    write.csv(udFootprintsToDrop,paste0(finalOutputsFolder,'\\',mergeName,'_droppedUds.csv'),row.names = FALSE)
   }
 
   calculatePopUse()
