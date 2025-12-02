@@ -1,6 +1,6 @@
 # MIGRATION MAPPER - VERSION 3.2 [Mac OS Version]
 
-THIS IS A VERY BETA VERSION. TESTERS WELCOME. PLEASE OPEN AN ISSUE ON THIS REPOSITORY OR SEND BUG REPORTS TO tnunez1@uwyo.edu. 
+THIS IS A VERY BETA VERSION DESIGNED TO ALLOW MIGRATION MAPPER TO BE RUN ON MACS. TESTERS WELCOME. PLEASE OPEN AN ISSUE ON THIS REPOSITORY OR SEND BUG REPORTS TO tnunez1@uwyo.edu. 
 
 ## Overview
 Migration Mapper is a free application designed for researchers, biologists, and managers to analyze fine-scale GPS collar data collected from terrestrial ungulates. While Migration Mapper is based in R, you do not need any coding ability to use it. Migration Mapper is written and maintained by Jerod Merkle (https://merkleresearchgroup.org/) and Josh Gage (https://www.gagecarto.com) with the Wyoming Migration Initiative (https://migrationinitiative.org/).  
